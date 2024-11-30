@@ -1,23 +1,53 @@
 import { FormEvent, useState } from 'react';
 import '../styles/Login.css';
 import ToggleSwitch from '../components/ToggleSwitch';
-
-const Login = () => {
+import axios from 'axios';
+import { serverURL } from '../config';
+import { useNavigate } from 'react-router-dom';
+const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const Login = (props:any) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isOn, setIsOn] = useState(false);
-
-  const handleLogin = (e:FormEvent) => {
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+  function validateForm(){
+    setError('');
+    if(!regex.test(email)||password.length===0)
+      setError('Password is missing or Email is not valid...');
+  }
+  const handleLogin = async(e:FormEvent) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log('Login:', { email, password });
+    validateForm();
+    const request={name,mail:email,password};
+    const response = await axios.post(`${serverURL}login/signin`,request,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }
+    );
+    console.log('Login:', { email, password ,response});
   };
 
-  const handleSignUp = (e:FormEvent) => {
+  const handleSignUp = async (e:FormEvent) => {
     e.preventDefault();
+    validateForm();
+    const request={name,mail:email,password};
+    const response = await axios.post(`${serverURL}login/signup`,request,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }
+    );
     // Handle sign up logic here
-    console.log('Sign Up:', { email, password });
+    console.log('Sign Up:', { email, password },response,props);
+    if(response.status===201){
+      localStorage.setItem('token',response.data.token);
+      navigate('/dashboard');
+    }
   };
 
   return (
@@ -55,6 +85,7 @@ const Login = () => {
             required
           />
         </div>
+        {error && <p className='error'>{error}</p>}
         <div className="button-group">
           {isOn && <button onClick={handleLogin}>Sign In</button>}
           {!isOn && <button onClick={handleSignUp}>Sign Up</button>}
