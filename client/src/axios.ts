@@ -1,7 +1,7 @@
 import axios, { InternalAxiosRequestConfig } from "axios"
 import { serverURL } from "./config";
 export const AxiosInstance = axios.create({
-    withCredentials: true,
+    // withCredentials: true,
     baseURL: serverURL,
     headers: {
         "Content-Type": "application/json"
@@ -10,7 +10,7 @@ export const AxiosInstance = axios.create({
 
 AxiosInstance.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
-      const token = localStorage.getItem('jwtToken');
+      const token = localStorage.getItem('token');
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }

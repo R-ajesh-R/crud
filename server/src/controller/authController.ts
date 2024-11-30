@@ -17,5 +17,6 @@ export const signUp = async (req:Request,res:Response) => {
         res.status(201).json({message: 'user created successfully!!',token});
     } catch (error) {
         console.log('Error while trying to signUp',error);
+        res.status(400).json({message:'User already exist'});
     }
 }
