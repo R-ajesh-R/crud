@@ -44,3 +44,20 @@ table {
 .error{
 	color: red;
 }
+.fixed-left{
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	height: 20px !important;
+	width: 20px !important;
+	border: none;
+	background-color: transparent;
+}
+.fixed-left img{
+	width: inherit;
+	height: inherit;
+}
+
+.fixed-left:hover{
+	cursor: pointer;
+}

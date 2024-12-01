@@ -3,6 +3,7 @@ import './App.css'
 import Login from './pages/Login'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
+import RolesPage from './pages/RolesPage';
 
 function App() {
 
@@ -11,7 +12,9 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={<Dashboard />}>
+          <Route path="roles" element={<RolesPage />} />
+        </Route>
       </Routes>
     </Router>
   )

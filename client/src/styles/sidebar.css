@@ -8,10 +8,14 @@
     padding-top: 20px;
   }
 
-  .sidebar div {
+  .sidebar a {
     padding: 15px 25px;
     text-decoration: none;
     font-size: 18px;
     color: white;
     display: block;
+  }
+
+  .sidebar a:hover{
+    cursor: pointer;
   }
