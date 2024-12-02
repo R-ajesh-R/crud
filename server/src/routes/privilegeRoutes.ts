@@ -1,5 +1,5 @@
 import express,{Request,Response} from "express";
-import Role from "../models/rolesModel";
+import Roles from "../models/rolesModel";
 const privilegeRouter = express.Router();
 const privilege = ['Roles','Teams','Country','State','Tasks'];
 privilegeRouter.get('/', async(req:Request,res:Response)=>{
@@ -8,7 +8,7 @@ privilegeRouter.get('/', async(req:Request,res:Response)=>{
         if(user.role==='Owner'){
             res.status(201).json({privilege});
         }
-        const userInfo = await Role.findOne({userName:user.userName});
+        const userInfo = await Roles.findOne({userName:user.userName});
         res.status(200).json({userInfo,privilege});
     } catch (error) {
         console.log('Error while getting privilege',error);

@@ -1,5 +1,5 @@
 import express,{Request,Response} from "express";
-import Role from '../models/rolesModel';
+import Roles from '../models/rolesModel';
 import bcrypt from 'bcrypt';
 
 const roleRouter = express.Router();
@@ -12,7 +12,9 @@ roleRouter.put('/', async(req:Request,res:Response)=>{
         bodyCopy['password']=hashedPassword;
         const filter = { userName: bodyCopy.userName };
         const updateFields = { ...bodyCopy };
-        const result = await Role.findOneAndUpdate(filter,{$set: updateFields},{ new: true, upsert: true });
+        const rest=await Roles.findOne(filter);
+        console.log('rest',rest);
+        const result = await Roles.findOneAndUpdate(filter,{$set: updateFields},{ new: true, upsert: true });
         res.status(201).json(result);
     } catch (error) {
         console.log('Error while trying to update the role and privilege',error);

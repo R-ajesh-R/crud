@@ -4,7 +4,6 @@ const roleSchema = new mongoose.Schema({
   userName: {
     type: String,
     required: true, 
-    // unique: true,   
     trim: true,     
   },
   password: {
@@ -34,6 +33,6 @@ const roleSchema = new mongoose.Schema({
   }
 }, { timestamps: true }); 
 
-const Role = mongoose.model("Role", roleSchema);
+const Roles = mongoose.model("Roles", roleSchema);
 
-export default Role;
+export default Roles;
