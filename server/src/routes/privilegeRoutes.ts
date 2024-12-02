@@ -1,16 +1,17 @@
 import express,{Request,Response} from "express";
-import { signIn, signUp } from "../controller/authController";
+import Role from "../models/rolesModel";
 const privilegeRouter = express.Router();
 const privilege = ['Roles','Teams','Country','State','Tasks'];
-privilegeRouter.get('/', (req:Request,res:Response)=>{
+privilegeRouter.get('/', async(req:Request,res:Response)=>{
     try {
-        const user = req.body.user;
+        const {user} = req.body;
         if(user.role==='Owner'){
             res.status(201).json({privilege});
         }
-        // res.json();
+        const userInfo = await Role.findOne({userName:user.userName});
+        res.status(200).json({userInfo,privilege});
     } catch (error) {
-        res.status(400).json({message:'Error while trying to get privilege'});
+        console.log('Error while getting privilege',error);
     }
 })
 

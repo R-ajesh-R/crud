@@ -14,13 +14,13 @@ const Login = (props:any) => {
   const navigate = useNavigate();
   function validateForm(){
     setError('');
-    if(!regex.test(email)||password.length===0)
+    if((email && !regex.test(email))||password.length===0)
       setError('Password is missing or Email is not valid...');
   }
   const handleLogin = async(e:FormEvent) => {
     e.preventDefault();
     validateForm();
-    const request={name,mail:email,password};
+    const request={name,password};
     const response = await axios.post(`${serverURL}login/signin`,request,
       {
         headers: {
@@ -28,7 +28,10 @@ const Login = (props:any) => {
         }
       }
     );
-    console.log('Login:', { email, password ,response});
+    if(response.status===201){
+      localStorage.setItem('token',response.data.token);
+      navigate('/dashboard');
+    }
   };
 
   const handleSignUp = async (e:FormEvent) => {
@@ -42,8 +45,6 @@ const Login = (props:any) => {
         }
       }
     );
-    // Handle sign up logic here
-    console.log('Sign Up:', { email, password },response,props);
     if(response.status===201){
       localStorage.setItem('token',response.data.token);
       navigate('/dashboard');
@@ -55,7 +56,6 @@ const Login = (props:any) => {
       <h2>Login</h2>
       <ToggleSwitch isOn={isOn} setIsOn={setIsOn} />
       <form>
-        {!isOn ? 
         <div className="form-group">
           <label>Name:</label>
           <input
@@ -63,10 +63,8 @@ const Login = (props:any) => {
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-        </div> 
-        :
-        null
-        }
+        </div>
+        {!isOn ? 
         <div className="form-group">
           <label>Email:</label>
           <input
@@ -76,6 +74,9 @@ const Login = (props:any) => {
             required
           />
         </div>
+        :
+        null
+        }
         <div className="form-group">
           <label>Password:</label>
           <input

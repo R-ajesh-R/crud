@@ -6,19 +6,16 @@ import cors from 'cors';
 import authRouter from './src/routes/authRoutes';
 import { authorize } from './src/middleware/authmiddleware';
 import privilegeRouter from './src/routes/privilegeRoutes';
+import roleRouter from './src/routes/roleRoutes'
 config();
 connectDB();
 const server = express();
 server.use(cors());
 server.use(express.json());
-const logger=(req:Request,res:Response,next:NextFunction)=>{
-    console.log('sdf9a8hf9a');
-    next();
-}
 const PORT = process.env.PORT || 5000;
-server.use('/api/login/signup',logger);
-server.use('/api/login',logger,authRouter);
+server.use('/api/login',authRouter);
 server.use('/api/privilege',authorize,privilegeRouter);
+server.use('/api/roles',authorize,roleRouter);
 server.listen(PORT,()=>{
     console.log(`Server running on Port ${PORT}`);
 })

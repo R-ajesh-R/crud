@@ -7,7 +7,6 @@ import { Outlet } from 'react-router-dom'
 function Dashboard() {
   return (
     <div>
-      dfsd
       <SideBar />
       <Logout />
       <Outlet />
