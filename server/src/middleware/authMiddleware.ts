@@ -10,6 +10,7 @@ export const authorize = (req:Request,res:Response,next:NextFunction) => {
             if(!token)
                 res.status(401).json({message: "No Token, Authorization denied"});
             const decodedData=jwt.verify(token,process.env.JWT_SECRET as string);
+            console.log('decodedData',decodedData)
             req.body.user=decodedData;
             next();
         }

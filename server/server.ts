@@ -11,8 +11,13 @@ connectDB();
 const server = express();
 server.use(cors());
 server.use(express.json());
+const logger=(req:Request,res:Response,next:NextFunction)=>{
+    console.log('sdf9a8hf9a');
+    next();
+}
 const PORT = process.env.PORT || 5000;
-server.use('/api/login',authRouter);
+server.use('/api/login/signup',logger);
+server.use('/api/login',logger,authRouter);
 server.use('/api/privilege',authorize,privilegeRouter);
 server.listen(PORT,()=>{
     console.log(`Server running on Port ${PORT}`);

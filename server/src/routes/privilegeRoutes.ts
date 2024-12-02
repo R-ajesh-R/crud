@@ -4,7 +4,7 @@ const privilegeRouter = express.Router();
 const privilege = ['Roles','Teams','Country','State','Tasks'];
 privilegeRouter.get('/', (req:Request,res:Response)=>{
     try {
-        const user = (req as any).body.user;
+        const user = req.body.user;
         if(user.role==='Owner'){
             res.status(201).json({privilege});
         }
